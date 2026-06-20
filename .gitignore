@@ -1,0 +1,13 @@
+# Dependencias de Node
+node_modules/
+
+# Archivos de entorno (donde guardas contraseñas)
+.env
+
+# Archivos de sistema y basura
+.DS_Store
+Thumbs.db
+
+# Logs de error
+server_err.txt
+server_out.txt

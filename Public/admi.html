@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Cursos La Villa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/admi.css">
+    <link rel="icon" href="./img/lavilla.png" type="image/png">
+    <script src="admi.js" defer></script>
+</head>
+<body>
+
+<div id="login-overlay" class="login-overlay">
+  <div class="login-card">
+    <h4>ACCESO RESTRINGIDO</h4>
+    <p>Ingrese la contraseña de administrador</p>
+    <input type="password" id="login-pass" class="login-input" placeholder="••••••••" autofocus>
+    <button id="login-btn" class="login-btn">Ingresar</button>
+    <p id="login-error" class="login-error">Contraseña incorrecta</p>
+  </div>
+</div>
+
+
+
+    <!-- ===== TOP NAVBAR ===== -->
+    <nav class="top-navbar">
+        <div class="navbar-inner">
+            <div class="navbar-brand">
+                <span class="logo-icon">🎓</span>
+                <div>
+                    <h1 class="logo-title">CURSOS LA VILLA</h1>
+                    <p class="logo-sub">CALIDAD EDUCATIVA</p>
+                </div>
+            </div>
+
+            <div class="navbar-links" id="navbarLinks">
+                <a class="nav-link active" href="#" onclick="mostrarSeccion('cursos')" data-section="cursos">
+                    <i class="bi bi-book"></i> Cursos
+                </a>
+                <a class="nav-link" href="#" onclick="mostrarSeccion('inscripciones')" data-section="inscripciones">
+                    <i class="bi bi-check-circle"></i> Inscripciones
+                </a>
+                <a class="nav-link" href="#" onclick="mostrarSeccion('preinscripciones')" data-section="preinscripciones">
+                    <i class="bi bi-clock-history"></i> Preinscripciones
+                </a>
+                <a class="nav-link" href="/Public/index.html" data-section="salir">
+                    <i class="bi bi-box-arrow-right"></i> Salir
+                </a>
+            </div>
+            <button class="navbar-toggle" id="navbarToggle" aria-label="Menú">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content" id="contenido">
+
+        <!-- ===== SECCIÓN CURSOS ===== -->
+        <section id="cursos" class="seccion" style="display:block;">
+
+            <!-- Hero Card -->
+            <div class="hero-card">
+                <div class="row align-items-center">
+                    <div class="col-lg-7">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="hero-icon-circle">
+                                <i class="bi bi-mortarboard-fill"></i>
+                            </div>
+                            <div>
+                                <h2 class="hero-title">Gestionar Cursos</h2>
+                                <p class="hero-desc">Administra los cursos disponibles en la plataforma. Crea, edita o elimina cursos de manera fácil y rápida.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 text-center">
+                        <div class="hero-illustration">
+                            <i class="bi bi-laptop"></i>
+                            <i class="bi bi-book"></i>
+                            <i class="bi bi-globe2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control de Proceso -->
+            <div class="proceso-card">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <div>
+                        <h3 class="proceso-title"><i class="bi bi-arrow-left-right"></i> Control de Proceso</h3>
+                        <p class="proceso-desc mb-0">
+                            Estado actual: <strong id="estado-proceso" class="estado-badge">—</strong>
+                        </p>
+                    </div>
+                    <button class="btn btn-toggle-proceso" id="btn-toggle-proceso" onclick="toggleProceso()">
+                        Cambiar a <span id="toggle-label">INSCRIPCION</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Formulario -->
+            <div class="form-card">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-5">
+                        <label for="nombre" class="form-label">Nombre del curso</label>
+                        <input type="text" class="form-control form-control-lg" id="nombre" placeholder="Ej: Desarrollo Web">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="area" class="form-label">Categoría</label>
+                        <select class="form-select form-select-lg" id="area">
+                            <option value="ESTÉTICA Y BIENESTAR">Estética y Bienestar</option>
+                            <option value="TECNOLOGÍA Y ADMINISTRACIÓN">Tecnología y Administración</option>
+                            <option value="SALUD Y OFICIOS">Salud y Oficios</option>
+                            <option value="IDIOMAS Y JURÍDICO">Idiomas y Jurídico</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-primary btn-lg w-100 btn-add" id="btn-accion" onclick="agregarCurso()">
+                            <i class="bi bi-plus-lg"></i> Agregar Curso
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla -->
+            <div class="table-card">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h3 class="table-title mb-0">Cursos Registrados</h3>
+                    <span class="badge bg-primary rounded-pill" id="total-cursos">0</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-premium">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Área</th>
+                                <th class="text-end">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpo-tabla"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ===== SECCIÓN INSCRIPCIONES ===== -->
+        <section id="inscripciones" class="seccion" style="display:none;">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="hero-icon-circle" style="width:48px;height:48px;font-size:1.3rem;">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <h2 class="hero-title mb-0">Lista de Inscritos</h2>
+            </div>
+            <div class="search-bar">
+                <i class="bi bi-search"></i>
+                <input type="text" id="search-inscripciones" class="search-input" placeholder="Buscar por nombre, cédula o teléfono..." oninput="filtrarTabla('inscripciones')">
+            </div>
+            <div class="table-card">
+                <div class="table-responsive">
+                    <table class="table table-premium" id="tabla-inscripciones">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre y Apellido</th>
+                                <th>WhatsApp</th>
+                                <th>Cédula</th>
+                                <th>Correo</th>
+                                <th>Grado Instr.</th>
+                                <th>Trabaja</th>
+                                <th>Dirección</th>
+                                <th>Condición Física/Cognitiva</th>
+                                <th>Referencia</th>
+                                <th>Monto</th>
+                                <th>Edad</th>
+                                <th>Fecha Nac.</th>
+                                <th>Experiencia</th>
+                                <th>Fecha</th>
+                                <th>Curso</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpo-inscripciones"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SECCIÓN PREINSCRIPCIONES ===== -->
+        <section id="preinscripciones" class="seccion" style="display:none;">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="hero-icon-circle" style="width:48px;height:48px;font-size:1.3rem;">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+                <h2 class="hero-title mb-0">Lista de Preinscritos</h2>
+            </div>
+            <div class="search-bar">
+                <i class="bi bi-search"></i>
+                <input type="text" id="search-preinscripciones" class="search-input" placeholder="Buscar por nombre o teléfono..." oninput="filtrarTabla('preinscripciones')">
+            </div>
+            <div class="table-card">
+                <div class="table-responsive">
+                    <table class="table table-premium" id="tabla-preinscripciones">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre y Apellido</th>
+                                <th>WhatsApp</th>
+                                <th>Fecha</th>
+                                <th>Curso</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpo-preinscripciones"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    
+</body>
+</html>
