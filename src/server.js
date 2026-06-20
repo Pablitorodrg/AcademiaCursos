@@ -1,7 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors'); // Mecanismo de seguridad para permitir peticiones desde el frontend
 const path = require('path');
+
 
 // IMPORTACIÓN DE LAS RUTAS SEPARADAS (Mismo orden que tu modelo)
 const solicitudRoutes = require('./routes/solicitudRoutes');
